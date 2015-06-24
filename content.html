@@ -10,7 +10,7 @@
       $("#tabs").tabs({
          beforeLoad: function( event, ui ) {
             ui.jqXHR.error(function() {
-               ui.panel.html("Could not load this tab. makes no sense I know.");
+               ui.panel.html("Could not load this tab.");
             });
          }
       });
