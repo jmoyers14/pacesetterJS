@@ -1,0 +1,229 @@
+<style>
+
+
+/*Tickets Table Style*/
+#tickets
+{
+font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+width:100%;
+border-collapse:collapse;
+}
+#tickets td, #tickets th
+{
+font-size:1em;
+border:1px solid #15377C;
+padding:3px 7px 2px 7px;
+}
+#tickets th
+{
+font-size:1.1em;
+text-align:left;
+padding-top:5px;
+padding-bottom:4px;
+background-color:#1F4490;
+color:#ffffff;
+}
+#tickets > tr td
+{
+color:#000000;
+background-color:#FFE9B5;
+}
+
+/*Parts Table Style*/
+#parts
+{
+width:100%;
+}
+#parts th, #parts th
+{
+color:#000000;
+background-color:#FFFFFF;
+}
+
+
+/*Ticket Header Style*/
+#ticketHeader tr td
+{
+background-color:#FFFFFF;
+}
+#ticketHeader tr.acctRow td
+{
+padding:10px
+}
+
+
+
+</style>
+
+<div>
+
+<script type="text/javascript">
+
+
+
+   //Returns a formatted HTML table to be used as the header section for each ticket
+   //TO-DO get data from server
+   function getTicketHeader() {
+     var firstRow  = "<tr class='acctRow'><td>Acct#:</td><td>Ship To:</td><td>Balance:</td></tr>";
+     var secondRow = "<tr class='priceRow'><td>Pricing:</td><td>Tax:</td><td>Date:</td></tr>"
+     var thirdRow  = "<tr class='ticketRow'><td>Ticket#</td><td>P.O.#:</td><td>Inv#:</td><td>Type:</td><td>Items:</td></tr>"
+     return '<table id="ticketHeader">' + firstRow + secondRow + thirdRow + '</table>'
+   }
+
+   //Returns a formatted HTML table displaying all of the parts on a specific ticket
+   //TO-DO get data from server
+   function getPartsForTicket() {
+      var data = {};
+
+      data.d = [{qty:'3', bko:'1', line:"WIZ", partNum:'5439', desc:'OIL FILTER', core:'.00', sell:'3.90' , extnds:"X", tx:'30'},
+                 {qty:'3', bko:'1', line:"WIZ", partNum:'5439', desc:'OIL FILTER', core:'.00', sell:'3.90' , extnds:"X", tx:'30'},
+                 {qty:'3', bko:'1', line:"WIZ", partNum:'5439', desc:'OIL FILTER', core:'.00', sell:'3.90' , extnds:"X", tx:'30'},
+                 {qty:'3', bko:'1', line:"WIZ", partNum:'5439', desc:'OIL FILTER', core:'.00', sell:'3.90' , extnds:"X", tx:'30'},
+                 {qty:'3', bko:'1', line:"WIZ", partNum:'5439', desc:'OIL FILTER', core:'.00', sell:'3.90' , extnds:"X", tx:'30'},
+                 {qty:'3', bko:'1', line:"WIZ", partNum:'5439', desc:'OIL FILTER', core:'.00', sell:'3.90' , extnds:"X", tx:'30'}];
+
+
+      var headers = '<th>qty</th><th>bko</th><th>line</th><th>part number</th><th>description</th><th>core</th><th>sell</th><th>extends</th><th>tx</th>';
+
+      var rows = '';
+
+      for(var i = 0; i < data.d.length; i++) {
+         rows += '<tr><td>' + data.d[i].qty
+              +  '</td><td>' + data.d[i].bko
+              +  '</td><td>' + data.d[i].line
+              +  '</td><td>' + data.d[i].partNum
+              +  '</td><td>' + data.d[i].desc
+              +  '</td><td>' + data.d[i].core
+              +  '</td><td>' + data.d[i].sell
+              +  '</td><td>' + data.d[i].extnds
+              +  '</td><td>' + data.d[i].tx
+              +  '</td></tr>';
+      }
+
+      return '<table id="parts">' + headers + rows + '</table>';
+   }
+
+   //Returns a formatted HTML table for the tickets footer
+   //Contains Store#, Subtotal, and total
+   //TO-DO compute total data based on data from server
+   function formatTicketFooter() {
+
+   }
+
+   $(document).ready(function() {
+
+   //set up accorion
+   (function($) {
+      $(function() {
+         $("#accordion > div").accordion({
+            header: "h3",
+            collapsible: true,
+            active: false,
+            heightStyle: 'content'
+         });
+      })
+   })(jQuery);
+
+   //build styled tickets table with dummy data
+   var data = {};
+   data.d = [{num: '1', TicketNum: '16630', CreatedAt: '4/28/2014', Type: 't', Total: '54.30', SellTo: 'Bob'},
+             {num: '2', TicketNum: '16630', CreatedAt: '4/28/2014', Type: 't', Total: '54.30', SellTo: 'Bob'},
+             {num: '3', TicketNum: '16630', CreatedAt: '4/28/2014', Type: 't', Total: '54.30', SellTo: 'Bob'},
+             {num: '4', TicketNum: '16630', CreatedAt: '4/28/2014', Type: 't', Total: '54.30', SellTo: 'Bob'},
+             {num: '5', TicketNum: '16630', CreatedAt: '4/28/2014', Type: 't', Total: '54.30', SellTo: 'Bob'}];
+
+   var html = '';
+   var ticketHeader = '';
+   var partTable = '';
+   for(var i = 0; i < data.d.length; i++) {
+         ticketHeader = getTicketHeader();
+         partTable = getPartsForTicket()
+         html += '<tr><td>' + data.d[i].num
+              + '</td><td>' + data.d[i].TicketNum
+              + '</td><td>' + data.d[i].CreatedAt
+              + '</td><td>' + data.d[i].Type
+              + '</td><td>' + data.d[i].Total
+              + '</td><td>' + data.d[i].SellTo
+              + '</td></tr><tr><td colspan="6">' + ticketHeader + partTable +  '</td></tr>';
+   }
+   $('#tickets tr').first().after(html);
+
+
+   //expand tickets to reveal tickets on ticket
+   $("#tickets > tbody > tr:odd").addClass("odd");
+   $("#tickets > tbody > tr:not(.odd)").hide();
+   $("#tickets > tbody > tr:first-child").show();
+   $("#tickets > tbody > tr.odd").click(function() {
+      $(this).next("tr").toggle();
+   });
+
+   });
+</script>
+
+<div id="accordion">
+   <div>
+      <h3><a href="#">Ticket/Invoice/Quote</a></h3>
+      <div>
+         Existing Tickets:
+         <br>
+         <table id="tickets">
+            <tr>
+            <th>?</th>
+            <th>Ticket #</th>
+            <th>Created</th>
+            <th>type</th>
+            <th>Total</th>
+            <th>Sell To</th>
+            </tr>
+         </table>
+         <br>
+         New Ticket:
+         <br>
+         <button>Create new ticket</button>
+      </div>
+   </div>
+   <div>
+      <h3><a href="#">Dispatch</a></h3>
+      <div>Content of the first tab</div>
+   </div>
+   <div>
+      <h3><a href="#">Invoice Payments</a></h3>
+      <div>Content of the first tab</div>
+   </div>
+   <div>
+      <h3><a href="#">Parts lookup</a></h3>
+      <div>
+         <div class="ui-widget">
+            <label for="tags">Tags: </label>
+            <input id="tags">
+         </div>
+      </div>
+   </div>
+   <div>
+      <h3><a href="#">Lookup/search/inquirt</a></h3>
+      <div>Content of the first tab</div>
+   </div>
+   <div>
+      <h3><a href="#">Lost sale (Non-inventory)</a></h3>
+      <div>Content of the first tab</div>
+   </div>
+   <div>
+      <h3><a href="#">Parts sold search</a></h3>
+      <div>Content of the first tab</div>
+   </div>
+   <div>
+      <h3><a href="#">Print (individual/group) pick tickets</a></h3>
+      <div>Content of the first tab</div>
+   </div>
+   <div>
+      <h3><a href="#">Merge tickets</a></h3>
+      <div>Content of the first tab</div>
+   </div>
+   <div>
+      <h3><a href="#">Cash drawer control</a></h3>
+      <div>Content of the first tab</div>
+   </div>
+</div>
+
+
+</div>

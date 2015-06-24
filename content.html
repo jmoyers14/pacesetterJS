@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="us">
+<head>
+   <meta charset="utf-8">
+   <link href="css/custom-theme/jquery-ui-1.10.4.custom.css" rel="stylesheet">
+   <script src="js/jquery-1.10.2.js"></script>
+   <script src="js/jquery-ui-1.10.4.custom.js"></script>
+   <script>
+   $(function() {
+      $("#tabs").tabs({
+         beforeLoad: function( event, ui ) {
+            ui.jqXHR.error(function() {
+               ui.panel.html("Could not load this tab. makes no sense I know.");
+            });
+         }
+      });
+   });
+   </script>
+</head>
+<body>
+
+
+
+<!-- Tabs -->
+<div id="tabs">
+   <ul>
+      <li><a href="tabContent/pointOfSale.html">Point of Sale</a></li>
+      <li><a href="tabContent/serviceShop.html">Service Shop</a></li>
+      <li><a href="tabContent/inventory.html">Inventory</a></li>
+      <li><a href="tabContent/purchaseReturns.html">Purchase/Returns</a></li>
+      <li><a href="tabContent/orderProcessing.html">Order Processing</a></li>
+      <li><a href="tabContent/accounting.html">Accounting</a></li>
+      <li><a href="tabContent/reports.html">Reports</a></li>
+      <li><a href="tabContent/management.html">Management</a></li>
+      <li><a href="tabContent/administration.html">Administration</a></li>
+   </ul>
+</div>
+
+
+
+
+</body>
+</html>
